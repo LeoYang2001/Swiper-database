@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { collection, getDocs, writeBatch, doc } from "firebase/firestore";
 import { db } from "../firebase";
 import './QuestionList.css'; // Import the CSS file
@@ -7,6 +7,7 @@ const QuestionList = () => {
   const [questions, setQuestions] = useState([]);
   const [localQuestions, setLocalQuestions] = useState([]);
   const [isSaving, setIsSaving] = useState(false)
+  const newQuestionInputRef = useRef(null);
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -33,6 +34,12 @@ const QuestionList = () => {
   const handleAdd = (newContent) => {
     const newQuestion = { id: Date.now().toString(), content: newContent }; // Using timestamp as a temporary ID
     setLocalQuestions([newQuestion, ...localQuestions ]);
+
+    setTimeout(() => {
+      if (newQuestionInputRef.current) {
+        newQuestionInputRef.current.focus();
+      }
+    }, 0); 
   };
 
   const handleSave = async () => {
@@ -70,7 +77,7 @@ const QuestionList = () => {
     <div className="container ">
       <h2 className=" font-bold text-2xl my-4">Database</h2>
       <div className=" flex flex-row justify-between mt-4 ">
-      <button className="add-button" onClick={() => handleAdd("New Question")}>Add Question</button>
+      <button className="add-button" onClick={() => handleAdd("")}>Add Question</button>
       <button className="save-button" onClick={handleSave}>
         {
           isSaving ? 'Saving...' : 'Save'
@@ -85,13 +92,14 @@ const QuestionList = () => {
           </tr>
         </thead>
         <tbody>
-          {localQuestions.map(question => (
+          {localQuestions.map((question, index) => (
             <tr key={question.id}>
               <td>
                 <input
                   type="text"
                   value={question.content}
                   onChange={(e) => handleUpdate(question.id, e.target.value)}
+                  ref={index === 0 ? newQuestionInputRef : null}
                 />
               </td>
               <td className="flex justify-center items-center">
