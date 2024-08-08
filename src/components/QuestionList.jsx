@@ -68,7 +68,7 @@ const QuestionList = () => {
 
   return (
     <div className="container ">
-      <h2 className=" font-bold text-xl">Questions</h2>
+      <h2 className=" font-bold text-2xl my-4">Questions</h2>
       <div className=" flex flex-row justify-between mt-4 ">
       <button className="add-button" onClick={() => handleAdd("New Question")}>Add Question</button>
       <button className="save-button" onClick={handleSave}>
