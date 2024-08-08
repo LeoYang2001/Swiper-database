@@ -100,6 +100,13 @@ const QuestionList = () => {
                   value={question.content}
                   onChange={(e) => handleUpdate(question.id, e.target.value)}
                   ref={index === 0 ? newQuestionInputRef : null}
+                  onBlur={()=>{
+                    let inputVal = newQuestionInputRef.current.value
+                    if(!inputVal.trim())
+                    {
+                      handleDelete(question.id)
+                    }
+                  }}
                 />
               </td>
               <td className="flex justify-center items-center">
