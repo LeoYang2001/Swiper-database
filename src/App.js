@@ -1,25 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import QuestionList from "./components/QuestionList";
+import QuestionForm from "./components/QuestionForm";
 
-function App() {
+
+const App = () => {
+  const [selectedQuestion, setSelectedQuestion] = useState(null);
+
+  const handleEdit = (question) => {
+    setSelectedQuestion(question);
+  };
+
+ 
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <QuestionList onEdit={handleEdit} />
     </div>
   );
-}
+};
 
 export default App;
